@@ -5,15 +5,20 @@
  * @format
  */
 
-import React from 'react';
-import { MyTab } from './src/navigator/myTab';
+import React, {useEffect} from 'react';
+import {MyTab} from './src/navigator/myTab';
 import store, {persistor} from './src/store';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import {NavigationContainer} from '@react-navigation/native';
 import {Provider} from 'react-redux';
 import {PersistGate} from 'redux-persist/integration/react';
+import SplashScreen from 'react-native-splash-screen';
 
-function App() {
+const App = () => {
+  useEffect(() => {
+    SplashScreen.hide();
+  }, []);
+
   return (
     <Provider store={store}>
       <PersistGate persistor={persistor}>
@@ -25,6 +30,6 @@ function App() {
       </PersistGate>
     </Provider>
   );
-}
+};
 
 export default App;

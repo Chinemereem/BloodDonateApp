@@ -13,22 +13,24 @@ import {bloodDropPng} from '../assets';
 import Login from '../screens/authentication/Login';
 import Home from '../screens/home/Home';
 import Header from '../screens/onboarding';
+
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Request from '../screens/home/requests/Request';
 import Register from '../screens/authentication/Register';
+import ForgotPassword from '../screens/authentication/ForgotPassword';
+import Request from '../screens/home/requests/Request';
+import SearchScreen from '../screens/home/Search';
+import Profile from '../screens/home/profile/Profile';
+import CountyApp from '../screens/home/profile/country';
+import FindDonnors from '../screens/home/findDonnors/FindDonnors';
+import DonnorsDetails from '../screens/home/findDonnors/DonnorsDetails';
+import ProfileBtSheet from '../screens/home/profile/ProfileBottomSheet';
 import CreateRequest from '../screens/home/requests/CreateRequest';
 import Report from '../screens/home/assistant/Report';
 import Assistant from '../screens/home/assistant/Assistant';
-import DonnorsDetails from '../screens/home/findDonnors/DonnorsDetails';
 import InvitContacts from '../screens/home/profile/inviteContacts';
-import FindDonnors from '../screens/home/findDonnors/FindDonnors';
-import SearchScreen from '../screens/home/Search';
-import Profile from '../screens/home/profile/Profile';
-import ForgotPassword from '../screens/authentication/ForgotPassword';
-import ProfileBtSheet from '../screens/home/profile/ProfileBottomSheet';
 const Stack = createNativeStackNavigator();
 
-export const MyTab = () => {
+export const MyStack = () => {
   return (
     <Stack.Navigator>
       <Stack.Screen
@@ -52,7 +54,14 @@ export const MyTab = () => {
           headerShown: false,
         }}
       />
-       <Stack.Screen name="ProfileBtSheet" component={ProfileBtSheet} />
+      <Stack.Screen
+        name="ForgotPassword"
+        component={ForgotPassword}
+        options={{
+          headerShown: false,
+        }}
+      />
+      <Stack.Screen name="ProfileBtSheet" component={ProfileBtSheet} />
       <Stack.Screen
         name="CreateRequest"
         component={CreateRequest}
@@ -84,13 +93,6 @@ export const MyTab = () => {
       <Stack.Screen
         name="DonnorsDetails"
         component={DonnorsDetails}
-        options={{
-          headerShown: false,
-        }}
-      />
-        <Stack.Screen
-        name="ForgotPassword"
-        component={ForgotPassword}
         options={{
           headerShown: false,
         }}

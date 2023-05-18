@@ -8,7 +8,8 @@ import Button from '../../components/button';
 import {TextField} from '../../components/Textfield';
 import {EmailIcon} from '../../assets/Svg';
 import {RedText} from '../../components/Text';
-import OtpInputs from 'react-native-otp-inputs';
+import OTPInputView from '@twotalltotems/react-native-otp-input';
+
 import {auth} from '../../../firebase';
 import {useNavigation} from '@react-navigation/native';
 
@@ -19,7 +20,7 @@ const ForgotPassword = () => {
   const [verifyOtp, setverifyOtp] = useState(false);
   const [coded, setCode] = useState('');
   const editable = currentUser ? !currentUser : null;
-  // const navigation = useNavigation();
+  const navigation = useNavigation();
   const handleSendOtp = () => {
     setOtpSent(true);
   };
@@ -69,7 +70,7 @@ const ForgotPassword = () => {
           <>
             {verifyOtp === false ? (
               <>
-                <OtpInputs
+                <OTPInputView
                   handleChange={code => {
                     setCode(code);
                   }}
@@ -114,7 +115,7 @@ const ForgotPassword = () => {
                   style={{width: wp(120), height: hp(120), alignSelf: 'center'}}
                 />
                 <Button
-                  // onPress={() => navigation.navigate('Login')}
+                  onPress={() => navigation.navigate('Login')}
                   title={'Finish'}
                 />
               </>
