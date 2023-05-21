@@ -14,7 +14,6 @@ import {
   Alert,
 } from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {BlurView} from '@react-native-community/blur';
 import {
   MenueIcon,
   SearchIcon,
@@ -27,7 +26,6 @@ import {
   BgIcon,
 } from '../../assets/Svg';
 import {FontFamily, Colors} from '../../assets/fonts/util/commonStyle';
-import {auth} from '../../../firebase';
 
 import {hp, wp} from '../../utils';
 import {useNavigation} from '@react-navigation/native';
@@ -53,8 +51,57 @@ import {
 } from '../../api/requestApi';
 import {Loader} from '../../components/Loader';
 
+const Item = ({titleStyle, style, hospital, city, bloodType}) => {
+  // const options = {
+  //   hour: 'numeric',
+  //   minute: 'numeric',
+  //   second: 'numeric',
+  //   hour12: true,
+  // };
+  // const currentTime = new Date().toLocaleTimeString('en-US', options);
+  return (
+    <View style={styles.stackViewStyle}>
+      <View>
+        <RegularText
+          style={styles.title}
+          title={`Name
+Steph`}
+        />
+        <RegularText
+          style={[styles.title, titleStyle]}
+          title={`Location
+${city}`}
+        />
+
+        <RegularText
+          style={[styles.title, titleStyle]}
+          title={`Hospital
+${hospital}`}
+        />
+      </View>
+
+      <HStack style={{position: 'absolute', left: 250}}>
+        <RegularText style={[styles.iconTitle, titleStyle]} title={bloodType} />
+        <BgIcon />
+      </HStack>
+
+      <RedText
+        title={'Donates'}
+        style={{
+          textAlign: 'center',
+          fontSize: 20,
+        }}
+      />
+    </View>
+  );
+};
+
 const Home = () => {
   const {handleAction} = useReduxAction();
+  // console.log(
+  //   user.auth.currentUser.auth.app._options.databaseURL,
+  //   'auth.uer.auth.currentUser.auth.app._options.databaseURl',
+  // );
 
   const dispatch = useDispatch();
   // const setRequested = UseGetRequests()
@@ -98,65 +145,6 @@ const Home = () => {
   }, []);
 
   // returned data
-
-  const Item = ({
-    title,
-    icon,
-    nameText,
-    time,
-    titleStyle,
-    style,
-    hospital,
-    city,
-    bloodType,
-  }) => {
-    // const options = {
-    //   hour: 'numeric',
-    //   minute: 'numeric',
-    //   second: 'numeric',
-    //   hour12: true,
-    // };
-    // const currentTime = new Date().toLocaleTimeString('en-US', options);
-    return (
-      <View style={styles.stackViewStyle}>
-        <View>
-          <RegularText
-            style={styles.title}
-            title={`Name
-Steph`}
-          />
-          <RegularText
-            style={[styles.title, titleStyle]}
-            title={`Location
-${city}`}
-          />
-
-          <RegularText
-            style={[styles.title, titleStyle]}
-            title={`Hospital
-${hospital}`}
-          />
-        </View>
-
-        <HStack style={{position: 'absolute', left: 250}}>
-          <RegularText
-            style={[styles.iconTitle, titleStyle]}
-            title={bloodType}
-          />
-          <BgIcon />
-        </HStack>
-
-        <RedText
-          title={'Donates'}
-          style={{
-            textAlign: 'center',
-            fontSize: 20,
-          }}
-        />
-      </View>
-    );
-  };
-  // Empty request
 
   return (
     <SafeAreaView style={{backgroundColor: '#FFFfff33'}}>

@@ -33,6 +33,7 @@ const Login = () => {
 
   const handleButton = useCallback(async () => {
     const response = await handleAction(onLogin, {email, password});
+
     if (response.meta.requestStatus === 'fulfilled') {
       displayToast('Logged in Succesfully', 'success');
       navigation.navigate('Home');
@@ -46,6 +47,7 @@ const Login = () => {
         } else {
           // User is signed out
           // ...
+          // console.log('user is logged out');
         }
       });
     }

@@ -9,9 +9,9 @@ import {TextField} from '../../components/Textfield';
 import {EmailIcon} from '../../assets/Svg';
 import {RedText} from '../../components/Text';
 import OTPInputView from '@twotalltotems/react-native-otp-input';
-
 import {auth} from '../../../firebase';
 import {useNavigation} from '@react-navigation/native';
+import HeaderWithIcon from '../../components/HeaderView';
 
 const ForgotPassword = () => {
   const currentUser = auth.currentUser?.email;
@@ -41,89 +41,101 @@ const ForgotPassword = () => {
   //   // eslint-disable-next-line react-hooks/exhaustive-deps
   // }, []);
   return (
-    <SafeAreaView style={[styles.background]}>
-      <View style={{marginLeft: hp(30)}}>
-        {otpSent === false ? (
-          <>
-            <TextField
-              placeholder={'Fahimekan28@gmail.com'}
-              style={{width: '90%'}}
-              icon={<EmailIcon />}
-              value={email}
-              onChangeText={text => setEmail(text)}
-              editable={editable}
-            />
-            <Text style={{marginTop: hp(20), fontSize: hp(17), lineHeight: 28}}>
-              Your password reset will be send in your {'\n'} registered email
-              address.
-            </Text>
-            <View style={styles.view}>
-              <Button
-                onPress={() => {
-                  handleSendOtp();
-                }}
-                title={'Send'}
+    <>
+      <HeaderWithIcon
+        title={'Forgot Password'}
+        titleStyle={{fontSize: hp(21), left: 60}}
+        iconStyle={{marginLeft: hp(20)}}
+      />
+      <SafeAreaView style={[styles.background]}>
+        <View style={{marginLeft: hp(30)}}>
+          {otpSent === false ? (
+            <>
+              <TextField
+                placeholder={'Fahimekan28@gmail.com'}
+                style={{width: '90%'}}
+                icon={<EmailIcon />}
+                value={email}
+                onChangeText={text => setEmail(text)}
+                editable={editable}
               />
-            </View>
-          </>
-        ) : (
-          <>
-            {verifyOtp === false ? (
-              <>
-                <OTPInputView
-                  handleChange={code => {
-                    setCode(code);
-                  }}
-                  numberOfInputs={4}
-                  inputContainerStyles={{
-                    width: '20%',
-
-                    marginRight: hp(20),
-                  }}
-                  keyboardType={'name-phone-pad'}
-                  inputStyles={{
-                    backgroundColor: '#F8F8F8',
-                    paddingVertical: '25%',
-
-                    borderColor: 'blue',
-                    padding: hp(10),
-                    fontSize: hp(20),
-                  }}
-                />
-                <View style={styles.view}>
-                  <RedText
-                    style={{
-                      textAlign: 'right',
-                      marginTop: hp(20),
-                      width: '90%',
-                    }}>
-                    Resend Code 49 Sec
-                  </RedText>
-                  <Button
-                    onPress={() => {
-                      handleVerifyOtp();
-                    }}
-                    title={'Verify'}
-                  />
-                </View>
-              </>
-            ) : (
-              <>
-                <Image
-                  source={Success}
-                  resizeMode="contain"
-                  style={{width: wp(120), height: hp(120), alignSelf: 'center'}}
-                />
+              <Text
+                style={{marginTop: hp(20), fontSize: hp(17), lineHeight: 28}}>
+                Your password reset will be send in your {'\n'} registered email
+                address.
+              </Text>
+              <View style={styles.view}>
                 <Button
-                  onPress={() => navigation.navigate('Login')}
-                  title={'Finish'}
+                  onPress={() => {
+                    handleSendOtp();
+                  }}
+                  title={'Send'}
                 />
-              </>
-            )}
-          </>
-        )}
-      </View>
-    </SafeAreaView>
+              </View>
+            </>
+          ) : (
+            <>
+              {verifyOtp === false ? (
+                <>
+                  <OTPInputView
+                    handleChange={code => {
+                      setCode(code);
+                    }}
+                    numberOfInputs={4}
+                    inputContainerStyles={{
+                      width: '20%',
+
+                      marginRight: hp(20),
+                    }}
+                    keyboardType={'name-phone-pad'}
+                    inputStyles={{
+                      backgroundColor: '#F8F8F8',
+                      paddingVertical: '25%',
+
+                      borderColor: 'blue',
+                      padding: hp(10),
+                      fontSize: hp(20),
+                    }}
+                  />
+                  <View style={styles.view}>
+                    <RedText
+                      style={{
+                        textAlign: 'right',
+                        marginTop: hp(20),
+                        width: '90%',
+                      }}>
+                      Resend Code 49 Sec
+                    </RedText>
+                    <Button
+                      onPress={() => {
+                        handleVerifyOtp();
+                      }}
+                      title={'Verify'}
+                    />
+                  </View>
+                </>
+              ) : (
+                <>
+                  <Image
+                    source={Success}
+                    resizeMode="contain"
+                    style={{
+                      width: wp(120),
+                      height: hp(120),
+                      alignSelf: 'center',
+                    }}
+                  />
+                  <Button
+                    onPress={() => navigation.navigate('Login')}
+                    title={'Finish'}
+                  />
+                </>
+              )}
+            </>
+          )}
+        </View>
+      </SafeAreaView>
+    </>
   );
 };
 
