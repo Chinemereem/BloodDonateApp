@@ -138,7 +138,6 @@ const Home = () => {
     handleAction(getUser);
     getUserData(usedata);
     GetRequests;
-    getRequest();
     getusers(onRetrieved);
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

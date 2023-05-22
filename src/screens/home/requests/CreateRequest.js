@@ -31,8 +31,7 @@ const CreateRequest = () => {
   const [notes, setNote] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
-  // const getRequest = useGetRequests();
-
+  // const getRequest = useGetRequests()
   const onAdded = request => {
     setLoading(false);
   };

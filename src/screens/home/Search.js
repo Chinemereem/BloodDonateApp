@@ -5,6 +5,7 @@ import {
   View,
   FlatList,
   TouchableOpacity,
+  StatusBar,
 } from 'react-native';
 import {bloodGroupData, groupData} from './utils/UserData';
 import HeaderWithIcon from '../../components/HeaderView';
@@ -113,6 +114,11 @@ const SearchScreen = () => {
   );
   return (
     <SafeAreaView style={styles.container}>
+      <StatusBar
+        animated={true}
+        backgroundColor="#E5E5E5"
+        barStyle="dark-content"
+      />
       <HeaderWithIcon
         title={'Search'}
         titleStyle={{fontSize: hp(21), left: 60}}

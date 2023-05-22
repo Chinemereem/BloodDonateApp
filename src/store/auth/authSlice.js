@@ -39,7 +39,7 @@ export const forgotPassword = createAsyncThunk(
 );
 
 export const getUser = createAsyncThunk('auth/getUser', async () => {
-  const response = await getAuth();
+  const response = getAuth();
   return response;
 });
 

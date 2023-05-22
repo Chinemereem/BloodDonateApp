@@ -34,8 +34,8 @@ The following highlighted libraries were instrumental in the development of this
 2. User Login: Provides a login form where registered users can enter their credentials (email and password) to access their accounts. Verifies the entered information and grants access upon successful authentication.
 3. Create Blood Donation Request: Enables users to create a donation request by entering their name, location, phone and attaching a note. saves the input in the database, associating it with the authenticated user.
 4. Find Blood Donnor: Displays a list of available donnors and relevant information whom users can request blood from.
-5. In App Chat: Provides  an in chat to where the user can request assistant.
-6. Invite contact: Users can be able to select from their contact list whom they want to invite to the app.
+5. In App Chat: Provides  an in chat where the user can request assistant.
+6. Invite contact: Users are able to select whom they want to invite to the app from their contact list.
 7. User Profile: Displays the profile information of the currently logged-in user, including their username, profile picture, blood type and other relevant details. Users can upload their profile picture.
 
 Please refer to the documentation or inline comments in the source code for more detailed information about each function.

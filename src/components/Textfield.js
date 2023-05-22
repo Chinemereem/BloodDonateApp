@@ -53,6 +53,7 @@ export const SearchField = ({
   rightIcon,
   pressed,
   editable,
+  disabled,
 }) => {
   return (
     <KeyboardAvoidingView>
@@ -67,7 +68,9 @@ export const SearchField = ({
           editable={editable}
         />
         {right ? (
-          <TouchableOpacity onPress={pressed}>{rightIcon}</TouchableOpacity>
+          <TouchableOpacity onPress={pressed} disabled={disabled}>
+            {rightIcon}
+          </TouchableOpacity>
         ) : null}
         {withLeftIcon ? (
           <View style={[styles.viewStyle, leftIconStyle]}>{leftIcon}</View>

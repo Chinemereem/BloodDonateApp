@@ -6,7 +6,7 @@
  */
 
 import React, {useEffect} from 'react';
-import {MyTab} from './src/navigator/myTab';
+import {MyStack} from './src/navigator/myTab';
 import store, {persistor} from './src/store';
 import {RootSiblingParent} from 'react-native-root-siblings';
 import {NavigationContainer} from '@react-navigation/native';
@@ -24,7 +24,7 @@ const App = () => {
       <PersistGate persistor={persistor}>
         <NavigationContainer>
           <RootSiblingParent>
-            <MyTab />
+            <MyStack />
           </RootSiblingParent>
         </NavigationContainer>
       </PersistGate>
