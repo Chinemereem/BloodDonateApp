@@ -70,7 +70,7 @@ Please ensure your code adheres to the established coding standards and includes
 
 ## Appreciation
 
-Thank you for taking the time to read the README for the BloodDonationApp! I appreciate your interest in the BloodDonate application. If you have any feedback, suggestions, or questions, please don't hesitate to reach out. Your input is valuable to me and helps me improve the app.
+Thank you for taking the time to read the README for the BloodDonationApp! I appreciate your interest in the BloodDonate application. If you have any feedback, suggestions, or questions, please don't hesitate to reach out.
 
 
 
