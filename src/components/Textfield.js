@@ -17,6 +17,7 @@ export const TextField = ({
   placeholder,
   style,
   icon,
+
   inputStyle,
   editable = true,
   secureTextEntry,

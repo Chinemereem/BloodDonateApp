@@ -4,20 +4,21 @@ import {
   StyleSheet,
   View,
   FlatList,
-  TouchableOpacity,
   StatusBar,
+  Alert,
 } from 'react-native';
-import {bloodGroupData, groupData} from './utils/UserData';
+import {bloodGroupData} from './utils/UserData';
 import HeaderWithIcon from '../../components/HeaderView';
 import {hp, wp} from '../../utils';
-import {HStack} from '../../components';
 import {Colors} from '../../assets/fonts/util/commonStyle';
 import {SearchField} from '../../components/Textfield';
-import {MenuIcon, FilterIcon, BackArrorIcon} from '../../assets/Svg';
+import {MenuIcon, FilterIcon} from '../../assets/Svg';
 import {Divider} from 'react-native-paper';
 import {RegularText} from '../../components';
 import Button from '../../components/button';
 import {Selector} from '../../components/Selector';
+import {Details} from './common';
+import {useNavigation} from '@react-navigation/native';
 
 const styles = StyleSheet.create({
   container: {
@@ -66,25 +67,39 @@ const styles = StyleSheet.create({
     borderRadius: hp(20),
     justifyContent: 'center',
   },
+  textStyle: {fontSize: hp(21), left: 60},
+  buttonStyle: {
+    alignSelf: 'center',
+    width: wp(130),
+    marginTop: hp(20),
+    top: 3,
+  },
 });
 
+const Item = ({title, select, onPress}) => (
+  <View style={styles.backgroundViewStyle}>
+    <Selector
+      title={title}
+      selected={select}
+      onPress={onPress}
+      titleStyle={{fontSize: hp(20)}}
+    />
+  </View>
+);
+
 const SearchScreen = () => {
-  const [selected, setSelected] = useState('selec');
+  const [selected, setSelected] = useState('');
   const [search, setSearch] = useState('');
   const [filteredDataSource, setFilteredDataSource] = useState([]);
   const [masterDataSource, setMasterDataSource] = useState([]);
-
+  const navigation = useNavigation();
   useEffect(() => {
     setFilteredDataSource(bloodGroupData);
     setMasterDataSource(bloodGroupData);
   }, []);
 
   const searchFilterFunction = text => {
-    // Check if searched text is not blank
     if (text) {
-      // Inserted text is not blank
-      // Filter the masterDataSource
-      // Update FilteredDataSource
       const newData = masterDataSource.filter(function (item) {
         const itemData = item.title
           ? item.title.toUpperCase()
@@ -95,23 +110,11 @@ const SearchScreen = () => {
       setFilteredDataSource(newData);
       setSearch(text);
     } else {
-      // Inserted text is blank
-      // Update FilteredDataSource with masterDataSource
       setFilteredDataSource(masterDataSource);
       setSearch(text);
     }
   };
 
-  const Item = ({title, select, onPress}) => (
-    <View style={styles.backgroundViewStyle}>
-      <Selector
-        title={title}
-        selected={select}
-        onPress={onPress}
-        titleStyle={{fontSize: hp(20)}}
-      />
-    </View>
-  );
   return (
     <SafeAreaView style={styles.container}>
       <StatusBar
@@ -121,7 +124,7 @@ const SearchScreen = () => {
       />
       <HeaderWithIcon
         title={'Search'}
-        titleStyle={{fontSize: hp(21), left: 60}}
+        titleStyle={styles.textStyle}
         iconStyle={{marginLeft: hp(20)}}
       />
 
@@ -168,42 +171,23 @@ const SearchScreen = () => {
           />
         </View>
         <Divider />
+        <Details
+          title={'Location'}
+          onPress={() => navigation.navigate('Location')}
+        />
+        <Details title={'Blood Bank'} />
+        <Details
+          title={'Donnors'}
+          onPress={() => navigation.navigate('FindDonnors')}
+        />
 
-        {groupData.map(item => {
-          return (
-            <View
-              style={{
-                top: 20,
-              }}>
-              <HStack
-                style={{
-                  justifyContent: 'space-between',
-                }}>
-                <RegularText
-                  title={item.title}
-                  style={{
-                    fontSize: hp(20),
-                    marginLeft: hp(10),
-                    marginTop: hp(10),
-                  }}
-                />
-                <TouchableOpacity style={{right: 10}}>
-                  <BackArrorIcon />
-                </TouchableOpacity>
-              </HStack>
-              <Divider style={{marginTop: hp(20)}} />
-              <Divider style={{marginTop: hp(10)}} />
-            </View>
-          );
-        })}
         <Button
           title={'Apply'}
           titleStyle={{textAlign: 'center'}}
-          style={{
-            alignSelf: 'center',
-            width: wp(130),
-            marginTop: hp(20),
-            top: 3,
+          style={styles.buttonStyle}
+          disabled={!selected}
+          onPress={() => {
+            Alert.alert('Coming Soon');
           }}
         />
       </View>

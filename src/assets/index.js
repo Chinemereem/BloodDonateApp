@@ -14,7 +14,8 @@ const bloodDropPng = require('./bloodDrop.png');
 const profilePng = require('./profilePng.png');
 const testTube = require('./testTube.png');
 const userPng = require('./userPng.png');
-
+const saveLife = require('./savelife.jpeg');
+// const bloodBagPng = require('./bloodbag.png');
 export {
   BroBg,
   Group,
@@ -32,4 +33,6 @@ export {
   profilePng,
   testTube,
   userPng,
+  saveLife,
+  // bloodBagPng,
 };

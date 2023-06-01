@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   },
   imageDimention: {
     width: Dimensions.get('window').width - 20,
-    height: hp(180),
+    height: hp(190),
     marginTop: hp(50),
 
     alignSelf: 'center',
@@ -391,12 +391,13 @@ const styles = StyleSheet.create({
   },
 
   iconTitle: {
-    left: 33,
+    left: 34,
     top: 10,
     zIndex: 2,
     color: Colors.white,
     fontFamily: FontFamily.poppinsRegular,
-    fontSize: hp(21),
+    fontSize: hp(20),
+    textAlign: 'center',
   },
   stackViewStyle: {
     marginLeft: hp(15),

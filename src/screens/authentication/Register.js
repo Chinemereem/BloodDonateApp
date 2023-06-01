@@ -65,6 +65,7 @@ const Register = ({navigation}) => {
         const user = userCredential.user;
 
         dispatch(createUser(userCredential.user));
+        navigation.navigate('Login');
         // Send email verification
         user
           .sendEmailVerification()
@@ -82,46 +83,20 @@ const Register = ({navigation}) => {
 
         firebase
           .firestore()
-          .collection('users')
+          .collection('newUsers')
           .doc(user.uid)
           .set(userData)
           .then(data => {})
           .catch(error => displayToast(error, 'errrrrr'));
         return user.updateProfile({displayName: userName, phoneNumber: phone});
       })
-      .then(() => {
-        navigation.navigate('Login');
-      })
+      .then(() => {})
       .catch(error => {
         displayToast(error.message, 'error');
 
         setLoading(false);
       });
   };
-
-  // const handleSignUpButton = useCallback(async () => {
-  //   const response = await handleAction(createUser, {email, password});
-  //   // firebase.firestore().collection('users').add({
-  //   // name: userName,
-  //   // email: email,
-  //   // avater: null,
-  //   // country: country,
-  //   // bloodGroup: bloodGroup,
-  //   // });
-
-  //   if (response.meta.requestStatus === 'fulfilled') {
-  //     response.sendEmailVerification;
-  //     response.user.updateProfile(update);
-  //     displayToast('Account Created Succesfully', 'success');
-  //     navigation.navigate('Login');
-  //   }
-
-  //   if (response.error) {
-  //     displayToast(response.error.message, 'error');
-  //   }
-
-  //   // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [email, password, navigation]);
 
   return (
     <SafeAreaView style={[styles.background]}>
@@ -182,10 +157,8 @@ const Register = ({navigation}) => {
         />
         <Button
           title={'REGISTER'}
-          onPress={() => {
-            handleSignUp();
-          }}
-          disabled={!email || !bloodGroup || !userName || !password}
+          onPress={handleSignUp}
+          disabled={!email || !bloodGroup || !userName || !password || !country}
           loading={loading}
         />
       </View>

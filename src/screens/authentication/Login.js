@@ -26,7 +26,7 @@ const Login = () => {
   const {user} = useSelector(state => state.auth);
   const loggedUser = user?.email || '';
   const [email, setEmail] = useState(loggedUser);
-  const [password, setPassword] = useState('');
+  const [password, setPassword] = useState('Police101.,');
   const {handleAction, loading} = useReduxAction();
 
   const navigation = useNavigation();

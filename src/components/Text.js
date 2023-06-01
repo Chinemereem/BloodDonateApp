@@ -36,7 +36,7 @@ export const TextWithOnpress = ({title, children, onpress, style}) => {
   );
 };
 
-export const RegularText = ({title, children, style, secTitle}) => {
+export const RegularText = ({title, children, style}) => {
   return (
     <Text
       style={[

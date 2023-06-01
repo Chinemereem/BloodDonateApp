@@ -56,8 +56,8 @@ const DonnorsPopUp = ({
   };
   const navigation = useNavigation();
   const tokyoRegion = {
-    latitude: 35.6762,
-    longitude: 139.6503,
+    latitude: lat,
+    longitude: lng,
     latitudeDelta: 0.01,
     longitudeDelta: 0.01,
   };

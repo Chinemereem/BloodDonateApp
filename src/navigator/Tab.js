@@ -27,7 +27,8 @@ import ProfileBtSheet from '../screens/home/profile/ProfileBottomSheet';
 import CreateRequest from '../screens/home/requests/CreateRequest';
 import Report from '../screens/home/assistant/Report';
 import Assistant from '../screens/home/assistant/Assistant';
-import InvitContacts from '../screens/home/profile/inviteContacts';
+import InvitContacts from '../screens/home/profile/InviteContacts';
+import Location from '../screens/home/common/Location';
 const Stack = createNativeStackNavigator();
 
 export const MyStack = () => {
@@ -112,6 +113,13 @@ export const MyStack = () => {
           headerShown: false,
         }}
       />
+      <Stack.Screen
+        name="Location"
+        component={Location}
+        options={{
+          headerShown: false,
+        }}
+      />
     </Stack.Navigator>
   );
 };
@@ -120,19 +128,33 @@ export const TabBar = () => {
   const _renderIcon = (routeName, selectedTab) => {
     switch (routeName) {
       case 'HomeView':
-        return <Svg.HomeIcon />;
+        return (
+          <Svg.HomeIcon
+            fill={routeName === selectedTab ? '#FF2156' : '#B3B3B3'}
+          />
+        );
       case 'title2':
-        return <Svg.MenuIcon />;
+        return (
+          <Svg.MenuIcon
+            fill={routeName === selectedTab ? '#FF2156' : '#B3B3B3'}
+          />
+        );
 
       case 'title3':
-        return <Svg.VIcon />;
+        return (
+          <Svg.VIcon fill={routeName === selectedTab ? '#FF2156' : '#B3B3B3'} />
+        );
 
       case 'title4':
-        return <Svg.PersonIcon />;
+        return (
+          <Svg.PersonIcon
+            fill={routeName === selectedTab ? '#FF2156' : '#B3B3B3'}
+          />
+        );
     }
 
     return (
-      <Svg.DropIcon color={routeName === selectedTab ? 'black' : 'gray'} />
+      <Svg.DropIcon color={routeName === selectedTab ? '#FF2156' : '#B3B3B3'} />
     );
   };
   const renderTabBar = ({routeName, selectedTab, navigate}) => {

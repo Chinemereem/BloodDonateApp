@@ -1,5 +1,5 @@
 import React from 'react';
-import {View, TouchableOpacity, ViewStyle, StyleProp} from 'react-native';
+import {View, TouchableOpacity} from 'react-native';
 
 export const HStack = ({
   align = 'center',
@@ -15,7 +15,7 @@ export const HStack = ({
     <Wrapper
       testID={testID}
       onPress={onPress}
-      activeOpacity={0.5}
+      activeOpacity={0.2}
       style={[
         {
           flexDirection: 'row',

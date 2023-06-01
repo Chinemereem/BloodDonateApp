@@ -57,6 +57,14 @@ const styles = StyleSheet.create({
     marginTop: hp(60),
   },
   titleStyle: {textAlign: 'center', fontSize: hp(19), fontWeight: '600'},
+  touchableStyle: {
+    width: wp(90),
+    height: hp(90),
+    alignItems: 'center',
+    alignSelf: 'center',
+    backgroundColor: '#EEEEEE',
+    borderRadius: 20,
+  },
 });
 
 const Profile = () => {
@@ -67,17 +75,15 @@ const Profile = () => {
   const requests = data?.createRequests;
   const retrievedImage = data?.updateImageRequests;
   const displayName = user?.displayName;
-
-  const uploadedImage = retrievedImage?.image;
+  const uploadedImage = retrievedImage?.[0]?.image;
 
   const createdAt = user?.metadata?.creationTime;
-  const [selectedImg, setSelectedImg] = useState(null);
+  const [selectedImg, setSelectedImg] = useState();
   const toggleSwitch = () => setIsEnabled(previousState => !previousState);
   const [disabled, setDisabled] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const [itemRetrieved, setItemRetrieved] = useState();
-
   const dataRetrieved = useCallback(retrieved => {
     setLoading(false);
 
@@ -86,6 +92,15 @@ const Profile = () => {
   useEffect(() => {
     getUserData(dataRetrieved);
   }, [dataRetrieved]);
+  let imageSource;
+  if (selectedImg) {
+    imageSource = selectedImg;
+  } else if (uploadedImage) {
+    imageSource = {uri: uploadedImage};
+  } else {
+    // Default image source
+    imageSource = userPng;
+  }
 
   const logoutUser = async () => {
     await dispatch(logOut());
@@ -105,7 +120,9 @@ const Profile = () => {
     },
   };
 
-  const addComplete = request => {};
+  const addComplete = request => {
+    console.log(request);
+  };
 
   // const uploadImage = async () => {
   //   setUploadImage(true);
@@ -133,9 +150,11 @@ const Profile = () => {
   useEffect(() => {
     auth.currentUser.updateProfile({photoURL: retrievedImage?.image});
   });
-
   const handelEdit = () => {
-    if (!uploadedImage) {
+    if (selectedImg) {
+      Alert.alert('Picture Exists', 'You have an Image uploaded already');
+      setDisabled(true);
+    } else if (!uploadedImage) {
       return showAlert();
     } else {
       Alert.alert('Picture Exists', 'You have an Image uploaded already');
@@ -157,6 +176,7 @@ const Profile = () => {
       },
     ]);
   };
+
   const launchImage = () => {
     launchImageLibrary(options, response => {
       if (response.didCancel) {
@@ -167,15 +187,12 @@ const Profile = () => {
         console.log('User tapped custom button: ', response.customButton);
       } else {
         // You can retrieve the selected image as a file path or base64-encoded string
-        // const imageUri = {uri: response.assets?.[0].uri};
-        setSelectedImg({uri: response.assets?.[0].uri});
-        uploadRequests({imageUri: response.assets?.[0].uri}, addComplete, {
-          updating: false,
-        });
+        const imageUri = {uri: response.assets?.[0].uri};
+        setSelectedImg(imageUri);
+        uploadRequests({imageUri: response.assets?.[0].uri}, addComplete);
       }
     });
   };
-
   const handleButton = () => {
     if (requests?.length === 1) {
       Alert.alert(
@@ -202,39 +219,13 @@ const Profile = () => {
         <View style={{paddingBottom: hp(120)}}>
           <TouchableOpacity
             onPress={handelEdit}
-            style={{
-              width: wp(90),
-              height: hp(90),
-              alignItems: 'center',
-              alignSelf: 'center',
-              backgroundColor: '#EEEEEE',
-              borderRadius: 20,
-            }}
+            style={styles.touchableStyle}
             loading={loading}>
-            {!uploadedImage ? (
-              (
-                <Image
-                  source={{
-                    uri: uploadedImage,
-                  }}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
-              ) && (
-                <Image
-                  source={userPng}
-                  resizeMode={'contain'}
-                  style={styles.image}
-                />
-              )
-            ) : (
-              <Image
-                source={{
-                  uri: retrievedImage?.image,
-                }}
-                style={styles.image}
-              />
-            )}
+            <Image
+              source={imageSource}
+              resizeMode={'contain'}
+              style={styles.image}
+            />
           </TouchableOpacity>
           <RegularText
             title={displayName}

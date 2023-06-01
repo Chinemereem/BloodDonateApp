@@ -1,7 +1,7 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState} from 'react';
 import {SafeAreaView, Modal, View, Image, TouchableOpacity} from 'react-native';
 import HeaderWithIcon from '../../../components/HeaderView';
-import {hp, wp} from '../../../utils';
+import {hp} from '../../../utils';
 import {RegularText} from '../../../components';
 import {styles} from './styles';
 import {
@@ -19,7 +19,7 @@ import {SearchField} from '../../../components/Textfield';
 import {createRequest, getUserData} from '../../../api/requestApi';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
 import {retrieveUserData} from '../../../store/auth/authSlice';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 
 const CreateRequest = () => {
   const [modalVisible, setModalVisible] = useState(false);
@@ -31,9 +31,14 @@ const CreateRequest = () => {
   const [notes, setNote] = useState('');
   const navigation = useNavigation();
   const dispatch = useDispatch();
+  const {data} = useSelector(state => state.auth);
+  const hasPhone = data?.phone;
   // const getRequest = useGetRequests()
+  console.log(data?.bloodGroup, 'ggg');
   const onAdded = request => {
     setLoading(false);
+
+    setModalVisible(true);
   };
   const usedata = retrieved => {
     dispatch(retrieveUserData(retrieved));
@@ -52,13 +57,12 @@ const CreateRequest = () => {
       {
         city: userCity,
         hospital: hospital,
-        bloodType: bGroup,
-        mobile: phone,
+        bloodType: bGroup || data?.bloodGroup,
+        mobile: phone || hasPhone,
         note: notes,
       },
       onAdded,
     );
-    setModalVisible(true);
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -89,15 +93,17 @@ const CreateRequest = () => {
             placeholder={'Blood Type'}
             style={styles.inputStyle}
             icon={<DropIcon />}
-            value={bGroup}
+            value={bGroup || data?.bloodGroup}
+            editable={!data?.bloodGroup}
             onChangeText={text => setBGroup(text)}
           />
           <SearchField
             placeholder={'Mobile'}
             style={styles.inputStyle}
             icon={<PhoneCallIcon />}
-            value={phone}
+            value={phone || hasPhone}
             onChangeText={text => setPhone(text)}
+            editable={!hasPhone}
           />
           <SearchField
             placeholder={'Add a note'}

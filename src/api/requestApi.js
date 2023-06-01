@@ -10,7 +10,7 @@ import displayToast from '../components/DisplayToast';
 
 export const createRequest = (request, addComplete) => {
   const db = firebase.firestore();
-  const usersRef = db.collection('users');
+  const usersRef = db.collection('newUsers');
   const userId = auth?.currentUser.uid;
   usersRef
     .doc(userId)
@@ -28,13 +28,42 @@ export const createRequest = (request, addComplete) => {
     .then(data => {
       addComplete(data);
     })
-    .catch(error => displayToast(error, 'errrrrr'));
+    .catch(error => displayToast(error.message, 'errrrrr'));
 };
+
+export const addImageRequest = (request, addComplete) => {
+  const db = firebase.firestore();
+  const usersRef = db.collection('newUsers');
+  const userId = auth?.currentUser.uid;
+  usersRef
+    .doc(userId)
+    .update({
+      updateImageRequests: [request],
+    })
+    .then(data => {
+      addComplete(data);
+    })
+    .catch(error => displayToast(error.message, 'errrrrr'));
+};
+// export const addImageRequehst = (request, addComplete) => {
+//   const db = firebase.firestore();
+//   const usersRef = db.collection('newUsers');
+//   const userId = auth?.currentUser.uid;
+//   usersRef
+//     .doc(userId)
+//     .update({
+//       updateImageRequests: request,
+//     })
+//     .then(() => {
+//       addComplete(request);
+//     })
+//     .catch(error => displayToast(error.message, 'errrrrr'));
+// };
 
 export const getRequest = async dataRetreived => {
   const db = firebase.firestore();
   // const userId = auth?.currentUser.uid;
-  const createRequestsRef = db.collection('users');
+  const createRequestsRef = db.collection('newUsers');
   // Retrieve all documents in the 'orders' collection
   createRequestsRef
     .get()
@@ -42,26 +71,8 @@ export const getRequest = async dataRetreived => {
       querySnapshot.forEach(doc => {});
     })
     .catch(error => {
-      displayToast(error, 'error');
+      console(error, 'errorfffffffff');
     });
-};
-export const addImageRequest = (request, addComplete) => {
-  const userId = auth?.currentUser.uid;
-  firebase
-    .firestore()
-    .collection('users')
-    .doc(userId)
-    .update({
-      updateImageRequests: request,
-    })
-    .then(snapshot => {
-      request.id = snapshot.id;
-      snapshot.set(request);
-    })
-    .then(() => {
-      addComplete(request);
-    })
-    .catch(error => displayToast(error, 'errrrrr'));
 };
 
 export const GetRequests = async () => {
@@ -92,20 +103,6 @@ export const getImageRequests = async dataRetreived => {
   dataRetreived(requestList);
 };
 
-export const updateRequests = (requests, updateComplete) => {
-  requests.updatedAt = firebase.firestore.FieldValue.serverTimestamp();
-  const db = firebase.firestore();
-  const usersRef = db.collection('users');
-  const userId = auth?.currentUser.uid;
-  usersRef
-    .doc(userId)
-    .update({
-      updateImageRequests: requests,
-    })
-    .then(() => updateComplete(requests))
-    .catch(error => displayToast(error, 'error'));
-};
-
 export function deleterequests(requests, deleteComplete) {
   firebase
     .firestore()
@@ -113,13 +110,13 @@ export function deleterequests(requests, deleteComplete) {
     .doc(requests.id)
     .delete()
     .then(() => deleteComplete())
-    .catch(error => displayToast(error, 'error'));
+    .catch(error => displayToast(error.message, 'error'));
 }
 export const getUserData = async dataRetreived => {
   const userId = auth?.currentUser.uid;
   firebase
     .firestore()
-    .collection('users')
+    .collection('newUsers')
     .doc(userId)
     .get()
     .then(doc => {
@@ -128,11 +125,7 @@ export const getUserData = async dataRetreived => {
     });
 };
 
-export const uploadRequests = async (
-  requests,
-  onrequestsUploaded,
-  {updating},
-) => {
+export const uploadRequests = async (requests, onrequestsUploaded) => {
   if (requests.imageUri) {
     const response = await fetch(requests.imageUri);
     const blob = await response.blob();
@@ -145,7 +138,7 @@ export const uploadRequests = async (
     const storageRef = firebase
       .storage()
       .ref()
-      .child(`users/images/${fileName}`);
+      .child(`newUsers/images/${fileName}`);
     storageRef.put(blob).on(
       firebase.storage.TaskEvent.STATE_CHANGED,
       snapshot => {
@@ -163,31 +156,12 @@ export const uploadRequests = async (
       () => {
         storageRef.getDownloadURL().then(downloadUrl => {
           requests.image = downloadUrl;
-
           delete requests.imageUri;
-
-          if (updating) {
-            displayToast('Updating....');
-            updateRequests(requests, onrequestsUploaded);
-          } else {
-            displayToast('adding...');
-            addImageRequest(requests, onrequestsUploaded);
-          }
+          displayToast('adding image...');
+          addImageRequest(requests, onrequestsUploaded);
         });
       },
     );
-  } else {
-    displayToast('Skipping image upload');
-
-    delete requests.imageUri;
-
-    if (updating) {
-      displayToast('Updating....');
-      updateRequests(requests, onrequestsUploaded);
-    } else {
-      displayToast('adding...');
-      addImageRequest(requests, onrequestsUploaded);
-    }
   }
 };
 
@@ -208,6 +182,6 @@ export const getusers = async dataRetreived => {
       displayToast('Unable to fetch!');
     }
   } catch (error) {
-    displayToast(error, 'errror');
+    displayToast(error.message, 'errror');
   }
 };

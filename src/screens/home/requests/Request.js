@@ -32,12 +32,13 @@ const styles = StyleSheet.create({
     color: Colors.primary,
   },
   iconTitle: {
-    left: 32,
+    left: 34,
     top: 10,
     zIndex: 2,
     color: Colors.white,
+    textAlign: 'center',
     fontFamily: FontFamily.poppinsRegular,
-    fontSize: hp(21),
+    fontSize: hp(20),
   },
 });
 
