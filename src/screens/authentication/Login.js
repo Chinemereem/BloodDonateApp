@@ -7,6 +7,8 @@ import {
   View,
   TouchableOpacity,
   KeyboardAvoidingView,
+  ScrollView,
+  Dimensions,
 } from 'react-native';
 import {Logo} from '../../assets/index';
 import {wp, hp} from '../../utils';
@@ -21,6 +23,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useSelector} from 'react-redux';
 import {onAuthStateChanged} from 'firebase/auth';
 import {auth} from '../../../firebase';
+import KeyboardAvoidingContainer from '../../components/KeyboardAvoidingView';
 
 const Login = () => {
   const {user} = useSelector(state => state.auth);
@@ -58,40 +61,45 @@ const Login = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const height = Dimensions.get('window').height;
   return (
-    <KeyboardAvoidingView style={[styles.background]} behavior={'padding'}>
-      <View style={{marginTop: hp(80)}}>
+    <KeyboardAvoidingContainer style={styles.background}>
+      <ScrollView
+        style={{marginTop: hp(80), maxHeight: 350}}>
         <Image source={Logo} resizeMode="contain" style={styles.image} />
         <Text style={styles.textInView}>
           <RedText>Dare</RedText> To <RedText>Donate</RedText>
         </Text>
 
-        <TextField
-          placeholder={'Fahimekan28@gmail.com'}
-          style={{marginTop: hp(90)}}
-          value={email}
-          onChangeText={value => setEmail(value)}
-          inputStyle={{fontWeight: '700', fontSize: hp(16), color: 'black'}}
-          icon={<EmailIcon />}
-        />
-        <TextField
-          placeholder={'***********'}
-          icon={<LockIcon />}
-          value={password}
-          onChangeText={value => setPassword(value)}
-          inputStyle={{fontWeight: '700', fontSize: hp(16), color: 'black'}}
-          secureTextEntry={!showPassword ? true : false}
-          isPassword={true}
-          handleClickShowPassword={handleClickShowPassword}
-          showPassword={showPassword}
-        />
+        <View style={{marginBottom: 20}}>
+          <TextField
+            placeholder={'Fahimekan28@gmail.com'}
+            style={{marginTop: hp(90)}}
+            value={email}
+            onChangeText={value => setEmail(value)}
+            inputStyle={{fontWeight: '700', fontSize: hp(16), color: 'black'}}
+            icon={<EmailIcon />}
+          />
+          <TextField
+            placeholder={'***********'}
+            icon={<LockIcon />}
+            value={password}
+            onChangeText={value => setPassword(value)}
+            inputStyle={{fontWeight: '700', fontSize: hp(16), color: 'black'}}
+            secureTextEntry={!showPassword ? true : false}
+            isPassword={true}
+            handleClickShowPassword={handleClickShowPassword}
+            showPassword={showPassword}
+          />
+        </View>
+      </ScrollView>
+      <View>
         <Button
           onPress={handleButton}
           title={'LOG IN'}
           disabled={!email || !password}
           loading={loading}
         />
-
         <View style={styles.view}>
           <TouchableOpacity
             style={styles.touchableStyle}
@@ -100,16 +108,16 @@ const Login = () => {
               Forgot Password?
             </Text>
           </TouchableOpacity>
+          <TouchableOpacity
+            style={{marginTop: 10, alignItems: 'center'}}
+            onPress={() => navigation.navigate('Register')}>
+            <Text style={{color: '#7E7E7E', fontSize: hp(15)}}>
+              Don’t have an account? <RedText>Register Now</RedText>.
+            </Text>
+          </TouchableOpacity>
         </View>
       </View>
-      <TouchableOpacity
-        style={{top: 60}}
-        onPress={() => navigation.navigate('Register')}>
-        <Text style={{color: '#7E7E7E', fontSize: hp(15)}}>
-          Don’t have an account? <RedText>Register Now</RedText>.
-        </Text>
-      </TouchableOpacity>
-    </KeyboardAvoidingView>
+    </KeyboardAvoidingContainer>
   );
 };
 
@@ -136,7 +144,7 @@ const styles = StyleSheet.create({
     lineHeight: 25,
   },
   view: {
-    marginTop: hp(40),
+    // marginTop: hp(40),
   },
   hstack: {
     marginTop: hp(200),

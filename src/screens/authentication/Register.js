@@ -8,6 +8,7 @@ import {
   View,
   TouchableOpacity,
   SafeAreaView,
+  ScrollView,
 } from 'react-native';
 import {Logo} from '../../assets/index';
 import {wp, hp} from '../../utils';
@@ -100,7 +101,7 @@ const Register = ({navigation}) => {
 
   return (
     <SafeAreaView style={[styles.background]}>
-      <View style={{marginTop: hp(20)}}>
+      <ScrollView style={{marginTop: hp(20)}}>
         <Image source={Logo} resizeMode="contain" style={styles.image} />
         <Text
           style={{
@@ -155,15 +156,15 @@ const Register = ({navigation}) => {
           onChangeText={value => setCountry(value)}
           inputStyle={{color: 'black'}}
         />
-        <Button
-          title={'REGISTER'}
-          onPress={handleSignUp}
-          disabled={!email || !bloodGroup || !userName || !password || !country}
-          loading={loading}
-        />
-      </View>
+      </ScrollView>
+      <Button
+        title={'REGISTER'}
+        onPress={handleSignUp}
+        disabled={!email || !bloodGroup || !userName || !password || !country}
+        loading={loading}
+      />
       <TouchableOpacity
-        style={{marginTop: hp(20)}}
+        style={{marginBottom: hp(20)}}
         onPress={() => navigation.navigate('Login')}>
         <Text style={{marginTop: hp(10), color: '#7E7E7E', fontSize: hp(15)}}>
           Already have an account? <RedText> Log In</RedText>.

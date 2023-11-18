@@ -7,6 +7,7 @@ import {
   Text,
   ActivityIndicator,
   Dimensions,
+  Platform,
 } from 'react-native';
 import HeaderWithIcon from '../../../components/HeaderView';
 import {hp, wp} from '../../../utils';
@@ -84,6 +85,7 @@ const Assistant = () => {
   const [messages, setMessages] = useState([]);
   const [inputMessage, setInputMessage] = useState('');
   const {user} = useSelector(state => state.auth);
+  const [selectedItem, setSelectedItem] = useState(null);
   const displayName = user?.displayName;
   let greeting;
 
@@ -111,11 +113,11 @@ const Assistant = () => {
     );
 
     return messageList?.some(item => {
-      const lowerCaseMessage = item.message.toLowerCase();
+      const lowerCaseMessage = item.message?.toLowerCase();
       return lowerCaseBloodGroups.includes(lowerCaseMessage);
     });
   };
-  const hasBloodGroupMessage = containsBloodGroupMessage(messages);
+  const hasBloodGroupMessage = containsBloodGroupMessage(messages[0]?.messages);
 
   const handlePressed = () => {
     if (inputMessage === '') {
@@ -124,7 +126,7 @@ const Assistant = () => {
     if (hasBloodGroupMessage && messages) {
       setTimeout(() => {
         const receivedMessage = {
-          id: messages.length + 4,
+          id: messages?.length + 4,
           message: 'Received!',
           isUser: false,
         };
@@ -143,12 +145,15 @@ const Assistant = () => {
     setInputMessage('');
   };
 
-  console.log(disabled, 'hhhhh');
+  console.log(disabled, messages, 'hhhhh', messages !== undefined);
   const fetchData = async () => {
     setLoading(true);
     try {
       const response = await getCreateConversationData();
-      setMessages(response[0]?.messages);
+  
+        setMessages(response);
+      
+      console.log(response, response[0]?.messages, 'response[0]?.messages')
     } catch (err) {
       console.log(err);
     } finally {
@@ -157,14 +162,17 @@ const Assistant = () => {
   };
   useEffect(() => {
     handlePressed();
+
     fetchData();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [hasBloodGroupMessage]);
 
   const handleSelectItem = item => {
     // Add the selected item's text to the messages list as a user message
+    setSelectedItem(item.id);
     const userMessage = {
-      id: messages.length + 1,
+      id: messages?.length + 1,
       message: item.text,
       isUser: true,
     };
@@ -175,7 +183,7 @@ const Assistant = () => {
     if (listData.some(dataItem => dataItem.text === item.text)) {
       // Add "Okay" to the messages list as a response in the other bubble
       const okayMessage = {
-        id: messages.length + 2,
+        id: messages?.length + 2,
         message: `That’s great, ${displayName}`,
         isUser: false,
       };
@@ -185,7 +193,7 @@ const Assistant = () => {
       // Wait for a few seconds before adding the next message
       setTimeout(() => {
         const nextMessage = {
-          id: messages.length + 3,
+          id: messages?.length + 3,
           message: 'Can you tell me your blood group?',
           isUser: false,
         };
@@ -197,9 +205,7 @@ const Assistant = () => {
     }
   };
 
-  console.log('vvvv======', messages?.length > 0, 'messages.length > 0');
-
-  console.log(messages, 'messages', 'kkkoiiii');
+  console.log(disabled, 'messages', 'kkkoiiii');
 
   return (
     <KeyboardAvoidingContainer style={styles.container}>
@@ -254,7 +260,7 @@ get started.`}
                         item={item}
                         select={item}
                         onPress={handleSelectItem}
-                        disabled={disabled}
+                        disabled={!!selectedItem || messages?.length > 0}
                       />
                     )}
                     keyExtractor={item => item.id}
@@ -264,7 +270,7 @@ get started.`}
             </HStack>
             {messages && (
               <FlatList
-                data={messages}
+                data={messages[0]?.messages}
                 keyExtractor={item => item.id.toString()}
                 renderItem={({item}) => (
                   <ChatBubble
@@ -305,7 +311,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: hp(10),
     marginLeft: hp(50),
-    left: 40,
+    left: Platform.OS === 'ios' ? 40 : 90,
   },
   stack: {
     marginLeft: hp(30),

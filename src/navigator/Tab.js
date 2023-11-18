@@ -29,8 +29,11 @@ import Report from '../screens/home/assistant/Report';
 import Assistant from '../screens/home/assistant/Assistant';
 import InvitContacts from '../screens/home/profile/InviteContacts';
 import Location from '../screens/home/common/Location';
+import Config from 'react-native-config';
 const Stack = createNativeStackNavigator();
-
+const {API_KEY} = Config;
+  console.log(API_KEY, 'API_KEY================');
+  console.log( 'API_KEY================');
 export const MyStack = () => {
   return (
     <Stack.Navigator>

@@ -6,9 +6,9 @@ export const KeyboardAvoidingContainer = ({
   style,
   headerAvailable = true,
 }) => {
-  const height = Platform.OS === 'ios' ? 5 : -390;
+  const height = Platform.OS === 'ios' ? 5 : -590;
   return (
-    <SafeAreaView style={{flex: 1,  backgroundColor: '#E5E5E5'}}>
+    <SafeAreaView style={{flex: 1, backgroundColor: '#E5E5E5'}}>
       <KeyboardAvoidingView
         style={{flex: 1}}
         behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
