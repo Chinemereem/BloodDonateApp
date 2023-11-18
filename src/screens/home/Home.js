@@ -84,7 +84,7 @@ ${hospital}`}
         <RegularText style={[styles.iconTitle, titleStyle]} title={bloodType} />
         <BgIcon />
       </HStack>
-
+     
       <RedText
         title={'Donates'}
         style={{

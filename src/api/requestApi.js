@@ -71,7 +71,7 @@ export const getRequest = async dataRetreived => {
       querySnapshot.forEach(doc => {});
     })
     .catch(error => {
-      console(error, 'errorfffffffff');
+      console.warn(error);
     });
 };
 
@@ -183,5 +183,48 @@ export const getusers = async dataRetreived => {
     }
   } catch (error) {
     displayToast(error.message, 'errror');
+  }
+};
+
+export const AddMessages = (requests, requestComplete) => {
+  firebase
+    .firestore()
+    .collection('conversations')
+    .doc(requests.id)
+    .then(() => requestComplete())
+    .catch(error => displayToast(error.message, 'error'));
+};
+
+export const CreateConversation = (request, addComplete) => {
+  const db = firebase.firestore();
+  const usersRef = db.collection('newUsers');
+  const userId = auth?.currentUser.uid;
+  usersRef
+    .doc(userId)
+    .update({
+      createConversation: [request],
+    })
+    .then(data => {
+      addComplete(data);
+    })
+    .catch(error => displayToast(error.message, 'errrrrr'));
+};
+
+export const getCreateConversationData = async () => {
+  const userId = auth?.currentUser.uid;
+  const db = firebase.firestore();
+  const usersRef = db.collection('newUsers');
+
+  try {
+    const doc = await usersRef.doc(userId).get();
+
+    if (doc.exists) {
+      const createConversationData = doc.data()?.createConversation || [];
+      return createConversationData;
+    } else {
+      throw new Error('User document not found');
+    }
+  } catch (error) {
+    throw new Error(error.message);
   }
 };

@@ -56,6 +56,7 @@ const authSlice = createSlice({
   reducers: {
     logOut: state => {
       state.user = initialState;
+      state.data = [];
     },
     setBloodGroup: (state, action) => {
       state.bloodGroup = action.payload;

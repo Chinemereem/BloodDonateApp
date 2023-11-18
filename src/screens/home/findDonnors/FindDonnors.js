@@ -155,11 +155,11 @@ const FindDonnors = ({sheetImg, refRBSheetTypeRef}) => {
                     refRBSheet.current.open();
                     setSelectedUser(item);
 
-                    // navigation.navigate('DonnorsDetails', {
-                    //   itemId: 86,
-                    //   otherParam: item.data?.name,
-                    //   title: item.data?.name,
-                    // });
+                    navigation.navigate('DonnorsDetails', {
+                      itemId: 86,
+                      otherParam: item.data?.name,
+                      title: item.data?.name,
+                    });
                   }}
                 />
               );

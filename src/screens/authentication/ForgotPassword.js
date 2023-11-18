@@ -32,7 +32,7 @@ const ForgotPassword = () => {
   const [coded, setCode] = useState('');
   const hasEmail = currentUser ? email : null;
   const navigation = useNavigation();
-  const {handleAction, loading} = useReduxAction();
+  const [loading, setLoading] = useState(false);
   // const handleSendOtp = () => {
   //   setOtpSent(true);
   // };
@@ -40,19 +40,19 @@ const ForgotPassword = () => {
     setverifyOtp(true);
   };
   console.log(currentUser, 'errcurrentUser');
-  const handleSendOtp = useCallback(async () => {
-    const response = await handleAction(forgotPassword, email);
-    if (response.meta.requestStatus === 'fulfilled') {
+  const handleSendOtp = async () => {
+    setLoading(true);
+    try {
+      await auth.sendPasswordResetEmail(email);
       displayToast('A link has been sent to your registered email', 'success');
-      // setOtpSent(true);
       navigation.navigate('Login');
+    } catch (error) {
+      displayToast(error.message, 'error');
+    } finally {
+      setLoading(false);
     }
-
-    if (response.error) {
-      displayToast(response.error.message, 'error');
-    }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  };
+  console.log(email, 'hhhhhh');
   return (
     <>
       <StatusBar

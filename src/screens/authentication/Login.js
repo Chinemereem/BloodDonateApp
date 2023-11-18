@@ -28,7 +28,7 @@ const Login = () => {
   const [email, setEmail] = useState(loggedUser);
   const [password, setPassword] = useState('Police101.,');
   const {handleAction, loading} = useReduxAction();
-
+  const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
 
   const handleButton = useCallback(async () => {
@@ -57,6 +57,7 @@ const Login = () => {
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [email, password]);
+  const handleClickShowPassword = () => setShowPassword(!showPassword);
   return (
     <KeyboardAvoidingView style={[styles.background]} behavior={'padding'}>
       <View style={{marginTop: hp(80)}}>
@@ -79,7 +80,10 @@ const Login = () => {
           value={password}
           onChangeText={value => setPassword(value)}
           inputStyle={{fontWeight: '700', fontSize: hp(16), color: 'black'}}
-          secureTextEntry={true}
+          secureTextEntry={!showPassword ? true : false}
+          isPassword={true}
+          handleClickShowPassword={handleClickShowPassword}
+          showPassword={showPassword}
         />
         <Button
           onPress={handleButton}

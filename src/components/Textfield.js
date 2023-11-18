@@ -10,7 +10,7 @@ import {hp, wp} from '../utils';
 import Colors from './Colors';
 import {HStack} from './listview';
 import KeyboardAvoidingView from 'react-native/Libraries/Components/Keyboard/KeyboardAvoidingView';
-
+import {EyeClosed, EyeOpened} from '../assets/Svg';
 export const TextField = ({
   value,
   onChangeText,
@@ -21,6 +21,9 @@ export const TextField = ({
   inputStyle,
   editable = true,
   secureTextEntry,
+  isPassword,
+  handleClickShowPassword,
+  showPassword,
 }) => {
   return (
     <SafeAreaView>
@@ -35,6 +38,13 @@ export const TextField = ({
           placeholderTextColor="gray"
           secureTextEntry={secureTextEntry}
         />
+        {isPassword && (
+          <TouchableOpacity
+            onPress={handleClickShowPassword}
+            style={styles.icon}>
+            {showPassword ? <EyeOpened /> : <EyeClosed />}
+          </TouchableOpacity>
+        )}
       </HStack>
     </SafeAreaView>
   );
@@ -83,6 +93,7 @@ export const SearchField = ({
 const styles = StyleSheet.create({
   input: {
     height: 40,
+    width: '85%',
     marginLeft: 12,
     paddingHorizontal: 17,
     borderLeftColor: '#D6D6D6',
@@ -115,5 +126,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingVertical: hp(10),
     borderRadius: 5,
+  },
+  icon: {
+    backgroundColor: '#F8F8F8',
+    
+    
+    // alignSelf: 'flex-end',
+    // bottom: '3%',
+    // right: '48%',
+
+    // justifyContent: 'center',
+    // alignItems: 'center',
   },
 });
